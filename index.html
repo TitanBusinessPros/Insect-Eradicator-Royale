@@ -37,6 +37,29 @@
             background: rgba(0, 0, 0, 0.3);
             border-radius: 10px;
             position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+        
+        .header-content {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .header-logo {
+            width: 160px;
+            height: 160px;
+            background-image: url('https://github.com/TitanBusinessPros/Insect-Eradicator-Royale/raw/main/4Real-Ad-1.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+        
+        .header-text {
+            text-align: left;
         }
         
         .audio-controls {
@@ -300,6 +323,20 @@
             border-radius: 10px;
         }
         
+        .level-select {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 200;
+        }
+        
         .hidden {
             display: none;
         }
@@ -348,6 +385,60 @@
             background: rgba(255, 255, 255, 0.1);
             border-radius: 5px;
             text-align: center;
+        }
+
+        /* Cutscene Overlay */
+        .cutscene-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .cutscene-overlay.active {
+            opacity: 1;
+        }
+
+        .cutscene-container {
+            position: relative;
+            max-width: 90%;
+            max-height: 90%;
+        }
+
+        .cutscene-video {
+            width: 100%;
+            height: auto;
+            max-height: 90vh;
+            border-radius: 10px;
+            box-shadow: 0 0 50px rgba(177, 0, 204, 0.8);
+        }
+
+        .skip-button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s;
+            z-index: 1001;
+        }
+
+        .skip-button:hover {
+            background: rgba(255, 255, 255, 0.4);
+            transform: scale(1.05);
         }
 
         /* Animations */
@@ -420,6 +511,21 @@
                 padding: 10px;
             }
             
+            .header-logo {
+                width: 100px;
+                height: 100px;
+            }
+            
+            .header-text h1 {
+                font-size: 1.5rem;
+                margin: 0;
+            }
+            
+            .header-text p {
+                font-size: 0.9rem;
+                margin: 0;
+            }
+            
             .game-stats {
                 margin-bottom: 10px;
                 padding: 8px 10px;
@@ -459,14 +565,30 @@
             .tower-selection {
                 grid-template-columns: 1fr 1fr;
             }
+
+            .cutscene-video {
+                max-height: 80vh;
+            }
+
+            .skip-button {
+                top: 10px;
+                right: 10px;
+                padding: 8px 15px;
+                font-size: 0.9rem;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
-            <h1>Bug Defense</h1>
-            <p>Defend against the bug invasion!</p>
+            <div class="header-content">
+                <div class="header-logo"></div>
+                <div class="header-text">
+                    <h1>Bug Defense</h1>
+                    <p>Defend against the bug invasion!</p>
+                </div>
+            </div>
             
             <!-- Audio Controls -->
             <div class="audio-controls">
@@ -535,7 +657,7 @@
 
                 <div class="upgrade-section">
                     <h3>Special Abilities</h3>
-                    <button class="upgrade-btn" id="pest-control-btn">Call Pest Control! $500</button>
+                    <button class="upgrade-btn" id="pest-control-btn">Call Pest Control! (FREE)</button>
                 </div>
                 
                 <div class="wave-info">
@@ -554,9 +676,34 @@
         </div>
         
         <div class="game-over hidden" id="game-over">
-            <h2>Game Over</h2>
-            <p>Your final score: <span id="final-score">0</span></p>
+            <h2 id="game-over-title">Game Over</h2>
+            <p id="game-over-message">Your final score: <span id="final-score">0</span></p>
+            <button id="continue-game">Watch Ad to Continue (+10 Lives)</button>
             <button id="restart-game">Play Again</button>
+        </div>
+
+        <!-- Level Selection Screen -->
+        <div class="level-select" id="level-select">
+            <h2>🎮 Select Level 🎮</h2>
+            <div style="margin: 20px 0;">
+                <button id="select-level-1" style="margin: 10px; padding: 15px 30px; font-size: 1.2rem;">
+                    Level 1 - Classic Path
+                </button>
+                <button id="select-level-2" style="margin: 10px; padding: 15px 30px; font-size: 1.2rem;">
+                    Level 2 - Extended Path (2x Enemies)
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cutscene Overlay -->
+    <div class="cutscene-overlay hidden" id="cutscene-overlay" style="display: none;">
+        <div class="cutscene-container">
+            <button class="skip-button" id="skip-cutscene">Skip ⏭️</button>
+            <video class="cutscene-video" id="cutscene-video" preload="auto">
+                <source src="https://github.com/TitanBusinessPros/Insect-Eradicator-Royale/raw/main/4Real-CS-AD-1.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
         </div>
     </div>
 
@@ -593,7 +740,8 @@
             pestControl: "https://github.com/TitanBusinessPros/BugDefense-/raw/main/PestControlVan.png",
             music: {
                 main: "https://github.com/TitanBusinessPros/Gameville/raw/main/Gameville%20Dreams.mp3"
-            }
+            },
+            cutscene: "https://github.com/TitanBusinessPros/Insect-Eradicator-Royale/raw/main/4Real-CS-AD-1.mp4"
         };
         
         // Game configuration
@@ -604,10 +752,60 @@
             initialLives: 10,
             levels: [
                 {
+                    name: "Level 1",
                     waves: 16,
+                    enemyMultiplier: 1,
                     path: [
                         {x: 0, y: 5}, {x: 3, y: 5}, {x: 3, y: 2}, 
                         {x: 7, y: 2}, {x: 7, y: 7}, {x: 11, y: 7}
+                    ],
+                    enemyTypes: [
+                        { name: 'Ant', baseHealth: 50, speed: 0.047, reward: 10, color: '#8B4513' },
+                        { name: 'Drain Fly', baseHealth: 75, speed: 0.05, reward: 10, color: '#696969' },
+                        { name: 'Mosquito', baseHealth: 120, speed: 0.055, reward: 10, color: '#696969' },
+                        { name: 'Fly', baseHealth: 170, speed: 0.052, reward: 15, color: '#696969' },
+                        { name: 'Tick', baseHealth: 210, speed: 0.05, reward: 15, color: '#8B0000' },
+                        { name: 'Slug', baseHealth: 300, speed: 0.042, reward: 15, color: '#228B22' },
+                        { name: 'Cockroach', baseHealth: 345, speed: 0.043, reward: 20, color: '#8B4513' },
+                        { name: 'Worm', baseHealth: 390, speed: 0.04, reward: 20, color: '#228B22' },
+                        { name: 'Snail', baseHealth: 400, speed: 0.036, reward: 20, color: '#228B22' },
+                        { name: 'Spider', baseHealth: 480, speed: 0.044, reward: 25, color: '#2F4F4F' },
+                        { name: 'Millipede', baseHealth: 520, speed: 0.035, reward: 25, color: '#8B4513' },
+                        { name: 'Long Legs', baseHealth: 620, speed: 0.042, reward: 25, color: '#9ACD32' },
+                        { name: 'Ladybug', baseHealth: 800, speed: 0.04, reward: 30, color: '#FF0000' },
+                        { name: 'Termite', baseHealth: 900, speed: 0.044, reward: 30, color: '#8B0000' },
+                        { name: 'Beetle', baseHealth: 1000, speed: 0.048, reward: 30, color: '#2F4F4F' },
+                        { name: 'Mice', baseHealth: 1000, speed: 0.05, reward: 50, color: '#808080' },
+                        { name: 'Rat', baseHealth: 1200, speed: 0.06, reward: 100, color: '#4B4B4B' }
+                    ]
+                },
+                {
+                    name: "Level 2",
+                    waves: 16,
+                    enemyMultiplier: 2, // Twice as many enemies
+                    path: [
+                        {x: 0, y: 6}, {x: 2, y: 6}, {x: 2, y: 3},
+                        {x: 5, y: 3}, {x: 5, y: 8}, {x: 8, y: 8},
+                        {x: 8, y: 2}, {x: 11, y: 2}
+                    ],
+                    enemyTypes: [
+                        { name: 'Ant', baseHealth: 100, speed: 0.056, reward: 5, color: '#8B4513' },
+                        { name: 'Drain Fly', baseHealth: 150, speed: 0.06, reward: 5, color: '#696969' },
+                        { name: 'Mosquito', baseHealth: 240, speed: 0.066, reward: 5, color: '#696969' },
+                        { name: 'Fly', baseHealth: 340, speed: 0.062, reward: 5, color: '#696969' },
+                        { name: 'Tick', baseHealth: 420, speed: 0.06, reward: 5, color: '#8B0000' },
+                        { name: 'Slug', baseHealth: 600, speed: 0.050, reward: 5, color: '#228B22' },
+                        { name: 'Cockroach', baseHealth: 690, speed: 0.052, reward: 5, color: '#8B4513' },
+                        { name: 'Worm', baseHealth: 780, speed: 0.048, reward: 5, color: '#228B22' },
+                        { name: 'Snail', baseHealth: 800, speed: 0.043, reward: 5, color: '#228B22' },
+                        { name: 'Spider', baseHealth: 960, speed: 0.053, reward: 5, color: '#2F4F4F' },
+                        { name: 'Millipede', baseHealth: 1040, speed: 0.042, reward: 5, color: '#8B4513' },
+                        { name: 'Long Legs', baseHealth: 1240, speed: 0.050, reward: 5, color: '#9ACD32' },
+                        { name: 'Ladybug', baseHealth: 1600, speed: 0.048, reward: 5, color: '#FF0000' },
+                        { name: 'Termite', baseHealth: 1800, speed: 0.053, reward: 5, color: '#8B0000' },
+                        { name: 'Beetle', baseHealth: 2000, speed: 0.058, reward: 5, color: '#2F4F4F' },
+                        { name: 'Mice', baseHealth: 2000, speed: 0.06, reward: 5, color: '#808080' },
+                        { name: 'Rat', baseHealth: 2400, speed: 0.072, reward: 5, color: '#4B4B4B' }
                     ]
                 }
             ],
@@ -653,31 +851,13 @@
                 }
               },
                 pestControlConfig: {
-                    cost: 500,
+                    cost: 0, // FREE!
                     speed: 0.05,
                     size: 125,
                     killRadius: 100,
-                    damage: 9999
-                },
-            enemyTypes: [
-                { name: 'Ant', baseHealth: 50, speed: 0.047, reward: 10, color: '#8B4513' },
-                { name: 'Drain Fly', baseHealth: 75, speed: 0.05, reward: 10, color: '#696969' },
-                { name: 'Mosquito', baseHealth: 120, speed: 0.055, reward: 10, color: '#696969' },
-                { name: 'Fly', baseHealth: 170, speed: 0.052, reward: 15, color: '#696969' },
-                { name: 'Tick', baseHealth: 210, speed: 0.05, reward: 15, color: '#8B0000' },
-                { name: 'Slug', baseHealth: 300, speed: 0.042, reward: 15, color: '#228B22' },
-                { name: 'Cockroach', baseHealth: 345, speed: 0.043, reward: 20, color: '#8B4513' },
-                { name: 'Worm', baseHealth: 390, speed: 0.04, reward: 20, color: '#228B22' },
-                { name: 'Snail', baseHealth: 400, speed: 0.036, reward: 20, color: '#228B22' },
-                { name: 'Spider', baseHealth: 480, speed: 0.044, reward: 25, color: '#2F4F4F' },
-                { name: 'Millipede', baseHealth: 520, speed: 0.035, reward: 25, color: '#8B4513' },
-                { name: 'Long Legs', baseHealth: 620, speed: 0.042, reward: 25, color: '#9ACD32' },
-                { name: 'Ladybug', baseHealth: 800, speed: 0.04, reward: 30, color: '#FF0000' },
-                { name: 'Termite', baseHealth: 900, speed: 0.044, reward: 30, color: '#8B0000' },
-                { name: 'Beetle', baseHealth: 1000, speed: 0.048, reward: 30, color: '#2F4F4F' },
-                { name: 'Mice', baseHealth: 1000, speed: 0.05, reward: 50, color: '#808080' },
-                { name: 'Rat', baseHealth: 1200, speed: 0.06, reward: 100, color: '#4B4B4B' }
-            ]
+                    damage: 9999,
+                    cooldown: 30000 // 30 seconds in milliseconds
+                }
         };
 
         // Game state
@@ -703,7 +883,11 @@
                 damage: 1.0,
                 fireRate: 1.0,
                 range: 1.0
-            }
+            },
+            cutscenePlaying: false,
+            pestControlCooldown: 0,
+            pestControlLastUsed: 0,
+            watchingAdForContinue: false
         };
 
         // Audio state
@@ -741,8 +925,11 @@
         const enemiesRemainingDisplay = document.getElementById('enemies-remaining');
         const startWaveBtn = document.getElementById('start-wave');
         const gameOverScreen = document.getElementById('game-over');
+        const gameOverTitle = document.getElementById('game-over-title');
+        const gameOverMessage = document.getElementById('game-over-message');
         const finalScoreDisplay = document.getElementById('final-score');
         const restartBtn = document.getElementById('restart-game');
+        const continueBtn = document.getElementById('continue-game');
         const towerOptions = document.querySelectorAll('.tower-option');
         const placementHelp = document.getElementById('placement-help');
         const pestControlBtn = document.getElementById('pest-control-btn');
@@ -750,6 +937,12 @@
         const nextWaveType = document.getElementById('next-wave-type');
         const muteBtn = document.getElementById('mute-btn');
         const playBtn = document.getElementById('play-btn');
+        const cutsceneOverlay = document.getElementById('cutscene-overlay');
+        const cutsceneVideo = document.getElementById('cutscene-video');
+        const skipCutsceneBtn = document.getElementById('skip-cutscene');
+        const levelSelectScreen = document.getElementById('level-select');
+        const selectLevel1Btn = document.getElementById('select-level-1');
+        const selectLevel2Btn = document.getElementById('select-level-2');
 
         function init() {
             loadAssets();
@@ -757,7 +950,8 @@
             setupAudio();
             updateUI();
             setupEventListeners();
-            loadLevel(0);
+            
+            // Level select screen is visible by default
             
             audioState.audioElement.play().catch(() => {});
         }
@@ -808,6 +1002,88 @@
                     });
                 }
             }
+        }
+
+        function playCutscene(forContinue = false) {
+            // If for pest control, check cooldown
+            if (!forContinue) {
+                const now = Date.now();
+                const timeSinceLastUse = now - gameState.pestControlLastUsed;
+                
+                if (timeSinceLastUse < config.pestControlConfig.cooldown) {
+                    // Still on cooldown, don't play
+                    return;
+                }
+                
+                gameState.pestControlLastUsed = now;
+            } else {
+                gameState.watchingAdForContinue = true;
+            }
+            
+            gameState.cutscenePlaying = true;
+            cutsceneOverlay.style.display = 'flex';
+            cutsceneOverlay.classList.remove('hidden');
+            
+            // Show or hide skip button based on context
+            if (forContinue) {
+                skipCutsceneBtn.style.display = 'none'; // No skip for continue
+            } else {
+                skipCutsceneBtn.style.display = 'block'; // Allow skip for pest control
+            }
+            
+            // Small delay for opacity transition
+            setTimeout(() => {
+                cutsceneOverlay.classList.add('active');
+            }, 10);
+            
+            // Reset video and clear any previous event handlers
+            cutsceneVideo.currentTime = 0;
+            cutsceneVideo.onended = null;
+            
+            cutsceneVideo.play().catch(e => {
+                console.log("Video play failed:", e);
+            });
+            
+            // Set new auto-hide when video ends
+            cutsceneVideo.onended = () => {
+                endCutscene();
+            };
+        }
+
+        function endCutscene() {
+            cutsceneOverlay.classList.remove('active');
+            
+            setTimeout(() => {
+                cutsceneOverlay.classList.add('hidden');
+                cutsceneOverlay.style.display = 'none';
+                cutsceneVideo.pause();
+                cutsceneVideo.currentTime = 0;
+                cutsceneVideo.onended = null; // Clear the event handler
+                
+                gameState.cutscenePlaying = false;
+                
+                // Check if this was a continue ad
+                if (gameState.watchingAdForContinue) {
+                    gameState.watchingAdForContinue = false;
+                    // Give 10 lives and resume game
+                    gameState.lives = 10;
+                    gameState.gameOver = false;
+                    gameOverScreen.classList.add('hidden');
+                    
+                    // CRITICAL FIX: The setTimeout-scheduled enemies won't spawn anymore
+                    // because they already checked gameOver = true and exited.
+                    // So we need to mark all enemies as "spawned" to allow wave completion.
+                    if (gameState.waveInProgress) {
+                        // Set spawned count to total so wave can complete when remaining enemies die
+                        gameState.enemiesSpawned = gameState.totalEnemies;
+                    }
+                    
+                    updateUI();
+                } else {
+                    // Normal pest control spawn
+                    spawnPestControl();
+                }
+            }, 300);
         }
 
         function createGrid() {
@@ -1038,10 +1314,14 @@
             gameState.waveInProgress = true;
             gameState.enemiesSpawned = 0;
             gameState.enemiesKilled = 0;
+            
+            const level = config.levels[gameState.currentLevel];
+            const multiplier = level.enemyMultiplier;
+            
             if (gameState.wave <= 5) {
-                gameState.totalEnemies = 15 + gameState.wave * 3;
+                gameState.totalEnemies = (15 + gameState.wave * 3) * multiplier;
             } else {
-                gameState.totalEnemies = 5 + gameState.wave * 2;
+                gameState.totalEnemies = (5 + gameState.wave * 2) * multiplier;
             }
             
             document.querySelectorAll('.grid-cell.valid, .grid-cell.invalid').forEach(c => {
@@ -1050,8 +1330,8 @@
             clearRangeDisplay();
             
             if (gameState.wave === 16) {
-                const mouseType = config.enemyTypes[15];
-                const ratType = config.enemyTypes[16];
+                const mouseType = level.enemyTypes[15];
+                const ratType = level.enemyTypes[16];
                 const halfEnemies = Math.floor(gameState.totalEnemies / 2);
                 
                 for (let i = 0; i < halfEnemies; i++) {
@@ -1071,7 +1351,7 @@
                 }
             } else {
                 const enemyTypeIndex = (gameState.wave - 1) % 15;
-                const enemyType = config.enemyTypes[enemyTypeIndex];
+                const enemyType = level.enemyTypes[enemyTypeIndex];
                 
                 for (let i = 0; i < gameState.totalEnemies; i++) {
                     setTimeout(() => {
@@ -1092,6 +1372,9 @@
             const health = enemyType.baseHealth + (gameState.wave - 1) * 15;
             const speed = enemyType.speed;
             
+            // Level 2 gets flat $5 reward, Level 1 gets wave bonus
+            const reward = (gameState.currentLevel === 1) ? enemyType.reward : enemyType.reward + gameState.wave * 2;
+            
             const enemy = {
                 id: Date.now() + Math.random(),
                 x: path[0].x,
@@ -1100,7 +1383,7 @@
                 maxHealth: health,
                 speed: speed,
                 pathIndex: 0,
-                reward: enemyType.reward + gameState.wave * 2,
+                reward: reward,
                 slow: 1,
                 isSlowed: false,
                 name: enemyType.name,
@@ -1144,12 +1427,6 @@
         }
 
         function spawnPestControl() {
-            if (gameState.money < config.pestControlConfig.cost) {
-                return;
-            }
-            
-            gameState.money -= config.pestControlConfig.cost;
-            
             const level = config.levels[gameState.currentLevel];
             const path = level.path;
             
@@ -1185,15 +1462,19 @@
         }
 
         function gameLoop() {
-            if (gameState.gameOver) return;
+            // Always run the game loop - let the UI handle blocking when game is over
+            if (!gameState.cutscenePlaying && !gameState.gameOver) {
+                moveEnemies();
+                movePestControls(); 
+                fireTowers();
+                moveProjectiles();
+                checkWaveCompletion();
+                updateUI();
+            } else if (!gameState.cutscenePlaying && gameState.gameOver) {
+                // Game is over but still update UI for potential continue
+                updateUI();
+            }
             
-            moveEnemies();
-            movePestControls(); 
-            fireTowers();
-            moveProjectiles();
-            checkWaveCompletion();
-            
-            updateUI();
             requestAnimationFrame(gameLoop);
         }
 
@@ -1204,7 +1485,16 @@
             gameState.enemies.forEach(enemy => {
                 if (enemy.pathIndex >= path.length - 1) {
                     gameState.lives--;
-                    removeEnemy(enemy.id);
+                    // Remove enemy but still count as killed for wave tracking
+                    const enemyId = enemy.id;
+                    gameState.enemies = gameState.enemies.filter(e => e.id !== enemyId);
+                    gameState.enemiesKilled++;
+                    
+                    const enemyElement = document.getElementById(`enemy-${enemyId}`);
+                    if (enemyElement) {
+                        enemyElement.remove();
+                    }
+                    
                     if (gameState.lives <= 0) {
                         gameOver();
                     }
@@ -1497,7 +1787,7 @@
                     nextWaveType.textContent = `BOSS: Mice & Rats`;
                 } else {
                     const nextWaveTypeIndex = gameState.wave % 15;
-                    const nextEnemyType = config.enemyTypes[nextWaveTypeIndex];
+                    const nextEnemyType = level.enemyTypes[nextWaveTypeIndex];
                     nextWaveType.textContent = `${nextEnemyType.name}s`;
                 }
                 wavePreview.style.display = 'block';
@@ -1515,7 +1805,19 @@
                 option.style.opacity = canAfford ? '1' : '0.5';
             });
             
-            pestControlBtn.disabled = gameState.money < config.pestControlConfig.cost;
+            // Pest control cooldown check
+            const now = Date.now();
+            const timeSinceLastUse = now - gameState.pestControlLastUsed;
+            const cooldownRemaining = Math.max(0, config.pestControlConfig.cooldown - timeSinceLastUse);
+            
+            if (cooldownRemaining > 0) {
+                const secondsLeft = Math.ceil(cooldownRemaining / 1000);
+                pestControlBtn.disabled = true;
+                pestControlBtn.textContent = `Call Pest Control! (${secondsLeft}s)`;
+            } else {
+                pestControlBtn.disabled = false;
+                pestControlBtn.textContent = 'Call Pest Control! (FREE)';
+            }
             
             if (gameState.selectedTower) {
                 const towerType = config.towerTypes[gameState.selectedTower];
@@ -1531,20 +1833,37 @@
         function gameOver() {
             gameState.gameOver = true;
             gameOverScreen.classList.remove('hidden');
-            gameOverScreen.querySelector('h2').textContent = 'Game Over';
-            gameOverScreen.querySelector('p').innerHTML = `Your final score: <span id="final-score">${gameState.score}</span>`;
+            gameOverTitle.textContent = 'Game Over';
+            gameOverMessage.innerHTML = `Your final score: <span id="final-score">${gameState.score}</span>`;
             finalScoreDisplay.textContent = gameState.score;
+            
+            // Show continue button
+            continueBtn.style.display = 'block';
         }
 
         function showVictoryScreen() {
             gameState.gameOver = true;
             const victoryScreen = gameOverScreen;
-            victoryScreen.querySelector('h2').textContent = '🎉 VICTORY! 🎉';
-            victoryScreen.querySelector('p').innerHTML = `You defeated all the bugs!<br>Your final score: <span id="final-score">${gameState.score}</span>`;
+            gameOverTitle.textContent = '🎉 VICTORY! 🎉';
+            gameOverMessage.innerHTML = `You defeated all the bugs!<br>Your final score: <span id="final-score">${gameState.score}</span>`;
             victoryScreen.classList.remove('hidden');
+            
+            // Hide continue button for victory
+            continueBtn.style.display = 'none';
         }
 
         function setupEventListeners() {
+            // Level selection
+            selectLevel1Btn.addEventListener('click', () => {
+                levelSelectScreen.classList.add('hidden');
+                loadLevel(0);
+            });
+
+            selectLevel2Btn.addEventListener('click', () => {
+                levelSelectScreen.classList.add('hidden');
+                loadLevel(1);
+            });
+
             towerOptions.forEach(option => {
                 option.addEventListener('click', () => {
                     const type = option.dataset.type;
@@ -1562,7 +1881,15 @@
             });
             
             pestControlBtn.addEventListener('click', () => {
-                spawnPestControl();
+                playCutscene(false);
+            });
+
+            continueBtn.addEventListener('click', () => {
+                playCutscene(true);
+            });
+
+            skipCutsceneBtn.addEventListener('click', () => {
+                endCutscene();
             });
             
             startWaveBtn.addEventListener('click', startWave);
@@ -1592,12 +1919,20 @@
                         damage: 1.0,
                         fireRate: 1.0,
                         range: 1.0
-                    }
+                    },
+                    cutscenePlaying: false,
+                    pestControlCooldown: 0,
+                    pestControlLastUsed: 0,
+                    watchingAdForContinue: false
                 };
                 
                 gameOverScreen.classList.add('hidden');
-                loadLevel(0);
-                gameLoop();
+                levelSelectScreen.classList.remove('hidden');
+                
+                // Clear the grid
+                document.querySelectorAll('.tower, .enemy, .projectile, .tower-range, .explosion').forEach(el => {
+                    el.remove();
+                });
             });
         }
 
