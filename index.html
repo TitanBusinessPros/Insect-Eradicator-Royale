@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bug Defense - Tower Defense Game</title>
+    <title>Insect Eradicator Royale</title>
     
     <!-- Favicon - Replace with your GitHub raw PNG link -->
     <link rel="icon" type="image/png" href="https://github.com/TitanBusinessPros/BugDefense-/raw/main/PestVanIcon.png">
@@ -22,6 +22,7 @@
             color: white;
             min-height: 100vh;
             padding: 20px;
+            overflow-x: hidden;
         }
         
         .container {
@@ -73,6 +74,7 @@
             padding: 10px 20px;
             border-radius: 10px;
             margin-bottom: 20px;
+            flex-wrap: wrap;
         }
         
         .game-area {
@@ -154,8 +156,8 @@
         
         #grid-container {
             position: relative;
-            width: 600px;
-            height: 600px;
+            width: 840px;
+            height: 840px;
             background: rgba(0, 0, 0, 0.2);
         }
         
@@ -163,18 +165,20 @@
             position: absolute;
             border: 1px solid rgba(255, 255, 255, 0.1);
             transition: all 0.2s;
+            touch-action: manipulation;
+            cursor: pointer;
         }
         
         .grid-cell.path {
             background-image: url('https://github.com/TitanBusinessPros/BugDefense-/raw/main/LightDirt.jpeg');
-            background-size: 150%; /* or 'contain' depending on the effect you want */
+            background-size: 150%;
             background-position: center;
             background-repeat: no-repeat;
         }
         
         .grid-cell.grass {
             background-image: url('https://github.com/TitanBusinessPros/BugDefense-/raw/main/DarkGrass.jpeg');
-            background-size: 190%; /* or 'contain' depending on the effect you want */
+            background-size: 190%;
             background-position: center;
             background-repeat: no-repeat;
         }
@@ -201,7 +205,7 @@
         
         .tower.range-display {
             border: 2px dashed rgba(255, 255, 255, 0.5);
-            background: transparent;
+            background: rgba(255, 255, 255, 0.1);
             z-index: 5;
             pointer-events: none;
         }
@@ -376,6 +380,86 @@
             50% { transform: scale(1.1); }
             100% { transform: scale(1); }
         }
+
+        /* Custom Scrollbars for Grid */
+        .game-board::-webkit-scrollbar {
+            width: 20px;
+            height: 20px;
+        }
+
+        .game-board::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+        }
+
+        .game-board::-webkit-scrollbar-thumb {
+            background: #90EE90;
+            border-radius: 10px;
+            border: 3px solid rgba(0, 0, 0, 0.3);
+        }
+
+        .game-board::-webkit-scrollbar-thumb:hover {
+            background: #76d976;
+        }
+
+        /* Firefox scrollbar */
+        .game-board {
+            scrollbar-width: thick;
+            scrollbar-color: #90EE90 rgba(0, 0, 0, 0.3);
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            body {
+                padding: 5px;
+                overflow-y: auto;
+            }
+            
+            header {
+                margin-bottom: 10px;
+                padding: 10px;
+            }
+            
+            .game-stats {
+                margin-bottom: 10px;
+                padding: 8px 10px;
+            }
+            
+            .game-area {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .game-board {
+                order: 1;
+                width: 100%;
+                padding: 10px;
+                overflow: auto;
+                -webkit-overflow-scrolling: touch;
+                max-height: 60vh;
+                display: flex;
+                justify-content: center;
+                align-items: flex-start;
+            }
+            
+            .controls {
+                order: 2;
+                width: 100%;
+            }
+            
+            #grid-container {
+                width: 90%;
+                height: auto;
+                aspect-ratio: 1;
+                max-width: 90vw;
+                max-height: 90vw;
+                margin: 0 auto;
+            }
+            
+            .tower-selection {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
     </style>
 </head>
 <body>
@@ -482,9 +566,9 @@
         const ASSETS = {
             towers: {
                 weak: "https://github.com/TitanBusinessPros/BugDefense-/raw/main/BugSpray.png",
-                strong: "https://github.com/TitanBusinessPros/BugDefense-/raw/main/BigSprayer.png",
+                strong: "https://github.com/TitanBusinessPros/BugDefense-/raw/main/OrangeSpray.png",
                 bomb: "https://github.com/TitanBusinessPros/BugDefense-/raw/main/BugBomb.png",
-                glue: "https://github.com/TitanBusinessPros/BugDefense-/raw/main/GlueTrap.png"
+                glue: "https://github.com/TitanBusinessPros/BugDefense-/raw/main/GlueTrap1.png"
             },
             
             enemies: {
@@ -507,7 +591,6 @@
                 rat: "https://github.com/TitanBusinessPros/BugDefense-/raw/main/Rat1.png"
             },
             pestControl: "https://github.com/TitanBusinessPros/BugDefense-/raw/main/PestControlVan.png",
-            // Music asset - Replace with your single GitHub raw MP3 link
             music: {
                 main: "https://github.com/TitanBusinessPros/Gameville/raw/main/Gameville%20Dreams.mp3"
             }
@@ -517,11 +600,11 @@
         const config = {
             gridSize: 12,
             cellSize: 70,
-            initialMoney: 10180,
+            initialMoney: 180,
             initialLives: 10,
             levels: [
                 {
-                    waves: 16, // 15 regular waves + 1 boss wave
+                    waves: 16,
                     path: [
                         {x: 0, y: 5}, {x: 3, y: 5}, {x: 3, y: 2}, 
                         {x: 7, y: 2}, {x: 7, y: 7}, {x: 11, y: 7}
@@ -564,7 +647,7 @@
                     range: 80,
                     fireRate: 0.7,
                     color: '#00BCD4',
-                    size: 75,
+                    size: 65,
                     slow: 0.15,
                     projectileType: 'glue'
                 }
@@ -576,30 +659,22 @@
                     killRadius: 100,
                     damage: 9999
                 },
-            // Define enemy types with wave patterns - REBALANCED BY DIFFICULTY
             enemyTypes: [
-                // TIER 1 - Easy/Fast (Waves 1-5)
                 { name: 'Ant', baseHealth: 50, speed: 0.047, reward: 10, color: '#8B4513' },
                 { name: 'Drain Fly', baseHealth: 75, speed: 0.05, reward: 10, color: '#696969' },
                 { name: 'Mosquito', baseHealth: 120, speed: 0.055, reward: 10, color: '#696969' },
                 { name: 'Fly', baseHealth: 170, speed: 0.052, reward: 15, color: '#696969' },
                 { name: 'Tick', baseHealth: 210, speed: 0.05, reward: 15, color: '#8B0000' },
-                
-                // TIER 2 - Medium (Waves 6-10)
                 { name: 'Slug', baseHealth: 300, speed: 0.042, reward: 15, color: '#228B22' },
                 { name: 'Cockroach', baseHealth: 345, speed: 0.043, reward: 20, color: '#8B4513' },
                 { name: 'Worm', baseHealth: 390, speed: 0.04, reward: 20, color: '#228B22' },
                 { name: 'Snail', baseHealth: 400, speed: 0.036, reward: 20, color: '#228B22' },
                 { name: 'Spider', baseHealth: 480, speed: 0.044, reward: 25, color: '#2F4F4F' },
-                
-                // TIER 3 - Hard/Tank (Waves 11-15)
                 { name: 'Millipede', baseHealth: 520, speed: 0.035, reward: 25, color: '#8B4513' },
                 { name: 'Long Legs', baseHealth: 620, speed: 0.042, reward: 25, color: '#9ACD32' },
                 { name: 'Ladybug', baseHealth: 800, speed: 0.04, reward: 30, color: '#FF0000' },
                 { name: 'Termite', baseHealth: 900, speed: 0.044, reward: 30, color: '#8B0000' },
                 { name: 'Beetle', baseHealth: 1000, speed: 0.048, reward: 30, color: '#2F4F4F' },
-                
-                // TIER 4 - Boss (Wave 16)
                 { name: 'Mice', baseHealth: 1000, speed: 0.05, reward: 50, color: '#808080' },
                 { name: 'Rat', baseHealth: 1200, speed: 0.06, reward: 100, color: '#4B4B4B' }
             ]
@@ -638,6 +713,24 @@
             audioElement: null
         };
 
+        // Track last clicked cell for double-tap detection
+        let lastClickState = {
+            x: -1,
+            y: -1,
+            time: 0
+        };
+        
+        // Detect if mobile
+        let isMobileDevice = window.innerWidth <= 768;
+
+        // Touch tracking for mobile
+        let touchState = {
+            lastTouchedCell: null,
+            touchStartTime: 0,
+            touchStartX: 0,
+            touchStartY: 0
+        };
+
         // DOM elements
         const gridContainer = document.getElementById('grid-container');
         const levelDisplay = document.getElementById('level-display');
@@ -655,12 +748,9 @@
         const pestControlBtn = document.getElementById('pest-control-btn');
         const wavePreview = document.getElementById('wave-preview');
         const nextWaveType = document.getElementById('next-wave-type');
-        
-        // Audio controls
         const muteBtn = document.getElementById('mute-btn');
         const playBtn = document.getElementById('play-btn');
 
-        // Initialize the game
         function init() {
             loadAssets();
             createGrid();
@@ -672,24 +762,19 @@
             audioState.audioElement.play().catch(() => {});
         }
 
-        // Load custom assets
         function loadAssets() {
-            // Set tower icons in the shop
             document.getElementById('weak-tower-icon').style.backgroundImage = `url(${ASSETS.towers.weak})`;
             document.getElementById('strong-tower-icon').style.backgroundImage = `url(${ASSETS.towers.strong})`;
             document.getElementById('bomb-tower-icon').style.backgroundImage = `url(${ASSETS.towers.bomb})`;
             document.getElementById('glue-tower-icon').style.backgroundImage = `url(${ASSETS.towers.glue})`;
         }
 
-        // Setup audio system
         function setupAudio() {
-            // Create audio element
             audioState.audioElement = new Audio();
             audioState.audioElement.loop = true;
             audioState.audioElement.src = ASSETS.music.main;
         }
 
-        // Toggle play/pause
         function togglePlay() {
             if (!audioState.isMuted) {
                 if (audioState.isPlaying) {
@@ -706,20 +791,17 @@
             }
         }
 
-        // Toggle mute
         function toggleMute() {
             audioState.isMuted = !audioState.isMuted;
             audioState.audioElement.muted = audioState.isMuted;
             
             if (audioState.isMuted) {
                 muteBtn.textContent = '🔇';
-                // If we mute while playing, pause the audio
                 if (audioState.isPlaying) {
                     audioState.audioElement.pause();
                 }
             } else {
                 muteBtn.textContent = '🔊';
-                // If we unmute and were playing, resume playback
                 if (audioState.isPlaying) {
                     audioState.audioElement.play().catch(e => {
                         console.log("Audio play failed:", e);
@@ -744,8 +826,38 @@
                     cell.dataset.x = x;
                     cell.dataset.y = y;
                     
-                    cell.addEventListener('click', () => handleCellClick(x, y));
-                    cell.addEventListener('mouseenter', () => handleCellHover(x, y));
+                    // BOTH mobile and desktop get click
+                    cell.addEventListener('click', (e) => {
+                        console.log('CLICK on cell', x, y, 'tower selected:', gameState.selectedTower, 'isMobile:', isMobileDevice);
+                        
+                        if (isMobileDevice && gameState.selectedTower && !gameState.waveInProgress && !gameState.gameOver) {
+                            // Mobile: first tap shows preview, second tap places
+                            const now = Date.now();
+                            const timeSinceLastClick = now - lastClickState.time;
+                            const isSameCell = lastClickState.x === x && lastClickState.y === y;
+                            
+                            if (isSameCell && timeSinceLastClick < 2000) {
+                                console.log('Mobile: Second tap - placing tower');
+                                handleCellClick(x, y);
+                                lastClickState = { x: -1, y: -1, time: 0 };
+                            } else {
+                                console.log('Mobile: First tap - showing preview');
+                                handleCellHover(x, y);
+                                lastClickState = { x, y, time: now };
+                            }
+                        } else {
+                            // Desktop: normal click to place (preview shown by mouseenter)
+                            handleCellClick(x, y);
+                        }
+                    });
+                    
+                    if (!isMobileDevice) {
+                        // Desktop only: hover preview
+                        cell.addEventListener('mouseenter', () => {
+                            handleCellHover(x, y);
+                        });
+                    }
+                    
                     gridContainer.appendChild(cell);
                 }
             }
@@ -768,22 +880,17 @@
                 }
             });
             
-            // Reset all cells to grass first
             document.querySelectorAll('.grid-cell').forEach(cell => {
                 cell.className = 'grid-cell grass';
             });
             
             const level = config.levels[levelIndex];
-            
-            // DRAW THE COMPLETE PATH
             const path = level.path;
             
-            // Connect ALL points with continuous lines
             for (let i = 0; i < path.length - 1; i++) {
                 const start = path[i];
                 const end = path[i + 1];
                 
-                // Draw horizontal line
                 if (start.y === end.y) {
                     const minX = Math.min(start.x, end.x);
                     const maxX = Math.max(start.x, end.x);
@@ -794,7 +901,6 @@
                         }
                     }
                 }
-                // Draw vertical line  
                 else if (start.x === end.x) {
                     const minY = Math.min(start.y, end.y);
                     const maxY = Math.max(start.y, end.y);
@@ -823,6 +929,7 @@
             const cell = getCellAt(x, y);
             if (!cell) return;
             
+            // Clear all previous highlights
             document.querySelectorAll('.grid-cell.valid, .grid-cell.invalid').forEach(c => {
                 c.classList.remove('valid', 'invalid');
             });
@@ -917,6 +1024,10 @@
             });
             
             clearRangeDisplay();
+            
+            // Deselect tower after placing so user can scroll freely
+            gameState.selectedTower = null;
+            
             updateUI();
         }
 
@@ -928,23 +1039,21 @@
             gameState.enemiesSpawned = 0;
             gameState.enemiesKilled = 0;
             if (gameState.wave <= 5) {
-            gameState.totalEnemies = 15 + gameState.wave * 3; // Waves 1-5: 18, 21, 24, 27, 30 enemies
+                gameState.totalEnemies = 15 + gameState.wave * 3;
             } else {
-            gameState.totalEnemies = 5 + gameState.wave * 2; // Waves 6+: normal scaling
-}
+                gameState.totalEnemies = 5 + gameState.wave * 2;
+            }
             
             document.querySelectorAll('.grid-cell.valid, .grid-cell.invalid').forEach(c => {
                 c.classList.remove('valid', 'invalid');
             });
             clearRangeDisplay();
             
-            // Wave 16 = Boss wave (Mouse then Rat)
             if (gameState.wave === 16) {
-                const mouseType = config.enemyTypes[15]; // Mice
-                const ratType = config.enemyTypes[16]; // Rat
+                const mouseType = config.enemyTypes[15];
+                const ratType = config.enemyTypes[16];
                 const halfEnemies = Math.floor(gameState.totalEnemies / 2);
                 
-                // Spawn first half as Mice
                 for (let i = 0; i < halfEnemies; i++) {
                     setTimeout(() => {
                         if (!gameState.gameOver && gameState.waveInProgress) {
@@ -953,7 +1062,6 @@
                     }, i * 1500);
                 }
                 
-                // Spawn second half as Rats
                 for (let i = 0; i < gameState.totalEnemies - halfEnemies; i++) {
                     setTimeout(() => {
                         if (!gameState.gameOver && gameState.waveInProgress) {
@@ -962,8 +1070,7 @@
                     }, (halfEnemies + i) * 1500);
                 }
             } else {
-                // Regular waves 1-15
-                const enemyTypeIndex = (gameState.wave - 1) % 15; // Cycle through 15 regular enemies
+                const enemyTypeIndex = (gameState.wave - 1) % 15;
                 const enemyType = config.enemyTypes[enemyTypeIndex];
                 
                 for (let i = 0; i < gameState.totalEnemies; i++) {
@@ -1011,7 +1118,6 @@
             enemyElement.style.left = `${enemy.x * config.cellSize + 10}px`;
             enemyElement.style.top = `${enemy.y * config.cellSize + 10}px`;
             
-            // Handle boss wave differently - use correct asset names
             let assetName = enemy.name.toLowerCase();
             if (enemy.name === 'Mice') assetName = 'mouse';
             if (enemy.name === 'Rat') assetName = 'rat';
@@ -1036,46 +1142,47 @@
             
             updateUI();
         }
+
         function spawnPestControl() {
-    if (gameState.money < config.pestControlConfig.cost) {
-        return; // Not enough money
-    }
-    
-    gameState.money -= config.pestControlConfig.cost;
-    
-    const level = config.levels[gameState.currentLevel];
-    const path = level.path;
-    
-    const pestControl = {
-        id: Date.now() + Math.random(),
-        x: path[path.length - 1].x, // Start at END of path
-        y: path[path.length - 1].y,
-        pathIndex: path.length - 1, // Start at last path point
-        speed: config.pestControlConfig.speed,
-        damage: config.pestControlConfig.damage,
-        killRadius: config.pestControlConfig.killRadius
-    };
-    
-    gameState.pestControls.push(pestControl);
-    
-    const pestControlElement = document.createElement('div');
-      pestControlElement.className = 'enemy'; // Reuse enemy class for positioning
-      pestControlElement.id = `pestcontrol-${pestControl.id}`;
-      pestControlElement.style.width = `${config.pestControlConfig.size}px`;
-      pestControlElement.style.height = `${config.pestControlConfig.size}px`;
-      pestControlElement.style.left = `${pestControl.x * config.cellSize + (config.cellSize - config.pestControlConfig.size)/2}px`;
-      pestControlElement.style.top = `${pestControl.y * config.cellSize + (config.cellSize - config.pestControlConfig.size)/2}px`;
-      pestControlElement.style.backgroundImage = `url(${ASSETS.pestControl})`;
-      pestControlElement.style.backgroundSize = 'contain';
-      pestControlElement.style.backgroundRepeat = 'no-repeat';
-      pestControlElement.style.backgroundPosition = 'center';
-      pestControlElement.style.zIndex = '20';
-      pestControlElement.style.filter = 'drop-shadow(0 0 40px #b100cc)'; // Glow effect
-    
-    gridContainer.appendChild(pestControlElement);
-    
-    updateUI();
-}
+            if (gameState.money < config.pestControlConfig.cost) {
+                return;
+            }
+            
+            gameState.money -= config.pestControlConfig.cost;
+            
+            const level = config.levels[gameState.currentLevel];
+            const path = level.path;
+            
+            const pestControl = {
+                id: Date.now() + Math.random(),
+                x: path[path.length - 1].x,
+                y: path[path.length - 1].y,
+                pathIndex: path.length - 1,
+                speed: config.pestControlConfig.speed,
+                damage: config.pestControlConfig.damage,
+                killRadius: config.pestControlConfig.killRadius
+            };
+            
+            gameState.pestControls.push(pestControl);
+            
+            const pestControlElement = document.createElement('div');
+            pestControlElement.className = 'enemy';
+            pestControlElement.id = `pestcontrol-${pestControl.id}`;
+            pestControlElement.style.width = `${config.pestControlConfig.size}px`;
+            pestControlElement.style.height = `${config.pestControlConfig.size}px`;
+            pestControlElement.style.left = `${pestControl.x * config.cellSize + (config.cellSize - config.pestControlConfig.size)/2}px`;
+            pestControlElement.style.top = `${pestControl.y * config.cellSize + (config.cellSize - config.pestControlConfig.size)/2}px`;
+            pestControlElement.style.backgroundImage = `url(${ASSETS.pestControl})`;
+            pestControlElement.style.backgroundSize = 'contain';
+            pestControlElement.style.backgroundRepeat = 'no-repeat';
+            pestControlElement.style.backgroundPosition = 'center';
+            pestControlElement.style.zIndex = '20';
+            pestControlElement.style.filter = 'drop-shadow(0 0 40px #b100cc)';
+            
+            gridContainer.appendChild(pestControlElement);
+            
+            updateUI();
+        }
 
         function gameLoop() {
             if (gameState.gameOver) return;
@@ -1132,56 +1239,53 @@
                 }
             });
         }
+
         function movePestControls() {
-    const level = config.levels[gameState.currentLevel];
-    const path = level.path;
-    
-    gameState.pestControls.forEach(pestControl => {
-        // Check if reached the start of path
-        if (pestControl.pathIndex <= 0) {
-            removePestControl(pestControl.id);
-            return;
-        }
-        
-        const target = path[pestControl.pathIndex - 1]; // Move BACKWARD
-        const dx = target.x - pestControl.x;
-        const dy = target.y - pestControl.y;
-        const distance = Math.sqrt(dx * dx + dy * dy);
-        
-        if (distance < 0.1) {
-            pestControl.pathIndex--;
-        } else {
-            pestControl.x += (dx / distance) * pestControl.speed;
-            pestControl.y += (dy / distance) * pestControl.speed;
-        }
-        
-        // Update position
-        const pestControlElement = document.getElementById(`pestcontrol-${pestControl.id}`);
-        if (pestControlElement) {
-            pestControlElement.style.left = `${pestControl.x * config.cellSize + (config.cellSize - config.pestControlConfig.size)/2}px`;
-            pestControlElement.style.top = `${pestControl.y * config.cellSize + (config.cellSize - config.pestControlConfig.size)/2}px`;
+            const level = config.levels[gameState.currentLevel];
+            const path = level.path;
             
-        }
-        
-        // Kill all enemies in radius
-        gameState.enemies.forEach(enemy => {
-            const enemyDx = (enemy.x - pestControl.x) * config.cellSize;
-            const enemyDy = (enemy.y - pestControl.y) * config.cellSize;
-            const enemyDistance = Math.sqrt(enemyDx * enemyDx + enemyDy * enemyDy);
-            
-            if (enemyDistance < pestControl.killRadius) {
-                enemy.health -= pestControl.damage;
-                updateEnemyHealthBar(enemy);
-                
-                if (enemy.health <= 0) {
-                    gameState.money += enemy.reward;
-                    gameState.score += enemy.reward;
-                    removeEnemy(enemy.id);
+            gameState.pestControls.forEach(pestControl => {
+                if (pestControl.pathIndex <= 0) {
+                    removePestControl(pestControl.id);
+                    return;
                 }
-            }
-        });
-    });
-}
+                
+                const target = path[pestControl.pathIndex - 1];
+                const dx = target.x - pestControl.x;
+                const dy = target.y - pestControl.y;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+                
+                if (distance < 0.1) {
+                    pestControl.pathIndex--;
+                } else {
+                    pestControl.x += (dx / distance) * pestControl.speed;
+                    pestControl.y += (dy / distance) * pestControl.speed;
+                }
+                
+                const pestControlElement = document.getElementById(`pestcontrol-${pestControl.id}`);
+                if (pestControlElement) {
+                    pestControlElement.style.left = `${pestControl.x * config.cellSize + (config.cellSize - config.pestControlConfig.size)/2}px`;
+                    pestControlElement.style.top = `${pestControl.y * config.cellSize + (config.cellSize - config.pestControlConfig.size)/2}px`;
+                }
+                
+                gameState.enemies.forEach(enemy => {
+                    const enemyDx = (enemy.x - pestControl.x) * config.cellSize;
+                    const enemyDy = (enemy.y - pestControl.y) * config.cellSize;
+                    const enemyDistance = Math.sqrt(enemyDx * enemyDx + enemyDy * enemyDy);
+                    
+                    if (enemyDistance < pestControl.killRadius) {
+                        enemy.health -= pestControl.damage;
+                        updateEnemyHealthBar(enemy);
+                        
+                        if (enemy.health <= 0) {
+                            gameState.money += enemy.reward;
+                            gameState.score += enemy.reward;
+                            removeEnemy(enemy.id);
+                        }
+                    }
+                });
+            });
+        }
 
         function fireTowers() {
             const now = Date.now();
@@ -1335,12 +1439,9 @@
                 
                 gameState.waveInProgress = false;
                 
-                // Check if this was the final boss wave
                 if (gameState.wave === 16) {
-                    // VICTORY!
                     showVictoryScreen();
                 } else {
-                    // Regular wave completion
                     gameState.money += 60;
                     gameState.score += 150;
                 }
@@ -1373,21 +1474,12 @@
             
             const pestControlElement = document.getElementById(`pestcontrol-${id}`);
             if (pestControlElement) {
-            pestControlElement.remove();
+                pestControlElement.remove();
+            }
         }
-}
 
         function getCellAt(x, y) {
             return document.querySelector(`[data-x="${x}"][data-y="${y}"]`);
-        }
-
-        function applyUpgrades() {
-            gameState.towers.forEach(tower => {
-                const baseType = config.towerTypes[tower.type];
-                tower.damage = baseType.damage * gameState.upgrades.damage;
-                tower.range = baseType.range * gameState.upgrades.range;
-                tower.fireRate = baseType.fireRate * gameState.upgrades.fireRate;
-            });
         }
 
         function updateUI() {
@@ -1398,12 +1490,10 @@
             
             const level = config.levels[gameState.currentLevel];
             waveDisplay.textContent = `${gameState.wave}/${level.waves}`;
-            enemiesRemainingDisplay.textContent = gameState.enemies.length;
+            enemiesRemainingDisplay.textContent = gameState.totalEnemies - gameState.enemiesKilled;
             
-            // Update wave preview
             if (!gameState.waveInProgress && gameState.wave < level.waves) {
                 if (gameState.wave === 15) {
-                    // Next wave is boss
                     nextWaveType.textContent = `BOSS: Mice & Rats`;
                 } else {
                     const nextWaveTypeIndex = gameState.wave % 15;
@@ -1472,12 +1562,10 @@
             });
             
             pestControlBtn.addEventListener('click', () => {
-            spawnPestControl();
+                spawnPestControl();
             });
             
             startWaveBtn.addEventListener('click', startWave);
-            
-            // Audio controls
             muteBtn.addEventListener('click', toggleMute);
             playBtn.addEventListener('click', togglePlay);
             
@@ -1513,7 +1601,6 @@
             });
         }
 
-        // Start the game
         init();
         gameLoop();
     </script>
