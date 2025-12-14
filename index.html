@@ -192,16 +192,58 @@
             cursor: pointer;
         }
         
-        .grid-cell.path {
+        .grid-cell.level1grass {
+            background-image: url('https://github.com/TitanBusinessPros/BugDefense-/raw/main/DarkGrass.jpeg');
+            background-size: 190%;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+        
+        .grid-cell.level1path {
             background-image: url('https://github.com/TitanBusinessPros/BugDefense-/raw/main/LightDirt.jpeg');
             background-size: 150%;
             background-position: center;
             background-repeat: no-repeat;
         }
         
-        .grid-cell.grass {
-            background-image: url('https://github.com/TitanBusinessPros/BugDefense-/raw/main/DarkGrass.jpeg');
+        .grid-cell.level2grass {
+            background-image: url('https://github.com/TitanBusinessPros/BugDefense-/raw/main/Level2grass.jpeg');
+            background-size: 200%;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+        
+        .grid-cell.level2path {
+            background-image: url('https://github.com/TitanBusinessPros/BugDefense-/raw/main/Level2path.png');
+            background-size: 100%;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+        
+        .grid-cell.level3grass {
+            background-image: url('https://github.com/TitanBusinessPros/BugDefense-/raw/main/grass.jpeg');
+            background-size: 200%;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+        
+        .grid-cell.level3path {
+            background-image: url('https://github.com/TitanBusinessPros/BugDefense-/raw/main/level3path.png');
+            background-size: 110%;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+        
+        .grid-cell.level4grass {
+            background-image: url('https://github.com/TitanBusinessPros/BugDefense-/raw/main/Level4grass.png');
             background-size: 190%;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+        
+        .grid-cell.level4path {
+            background-image: url('https://github.com/TitanBusinessPros/BugDefense-/raw/main/Level4path.png');
+            background-size: 150%;
             background-position: center;
             background-repeat: no-repeat;
         }
@@ -684,13 +726,23 @@
 
         <!-- Level Selection Screen -->
         <div class="level-select" id="level-select">
-            <h2>🎮 Select Level 🎮</h2>
+            <div style="display: flex; align-items: center; justify-content: center; gap: 20px; margin-bottom: 20px;">
+                <img src="https://github.com/TitanBusinessPros/Insect-Eradicator-Royale/raw/main/IER-Favicon.png" alt="Bug" style="width: 60px; height: 60px;">
+                <h2>Select Level</h2>
+                <img src="https://github.com/TitanBusinessPros/Insect-Eradicator-Royale/raw/main/IER-Favicon.png" alt="Bug" style="width: 60px; height: 60px;">
+            </div>
             <div style="margin: 20px 0;">
                 <button id="select-level-1" style="margin: 10px; padding: 15px 30px; font-size: 1.2rem;">
-                    Level 1 - Classic Path
+                    Easy (16 Waves)
                 </button>
                 <button id="select-level-2" style="margin: 10px; padding: 15px 30px; font-size: 1.2rem;">
-                    Level 2 - Extended Path (2x Enemies)
+                    Moderate (16 Waves, 2x Enemies)
+                </button>
+                <button id="select-level-3" style="margin: 10px; padding: 15px 30px; font-size: 1.2rem;">
+                    Hard (20 Waves, 3x Enemies)
+                </button>
+                <button id="select-level-4" style="margin: 10px; padding: 15px 30px; font-size: 1.2rem; background: linear-gradient(to bottom, #ff0000, #8b0000) !important;">
+                    Super Hard (30 Waves, 4x Enemies - House Invasion!)
                 </button>
             </div>
         </div>
@@ -719,7 +771,7 @@
             },
             
             enemies: {
-                drainfly: "https://github.com/TitanBusinessPros/BugDefense-/raw/main/DrainFly.png",
+                earwig: "https://github.com/TitanBusinessPros/BugDefense-/raw/main/earwig.png",
                 slug: "https://github.com/TitanBusinessPros/BugDefense-/raw/main/Slug1.png",
                 ant: "https://github.com/TitanBusinessPros/BugDefense-/raw/main/Ant1.png",
                 spider: "https://github.com/TitanBusinessPros/BugDefense-/raw/main/Spider.png",
@@ -761,7 +813,7 @@
                     ],
                     enemyTypes: [
                         { name: 'Ant', baseHealth: 50, speed: 0.047, reward: 10, color: '#8B4513' },
-                        { name: 'Drain Fly', baseHealth: 75, speed: 0.05, reward: 10, color: '#696969' },
+                        { name: 'Earwig', baseHealth: 75, speed: 0.05, reward: 10, color: '#696969' },
                         { name: 'Mosquito', baseHealth: 120, speed: 0.055, reward: 10, color: '#696969' },
                         { name: 'Fly', baseHealth: 170, speed: 0.052, reward: 15, color: '#696969' },
                         { name: 'Tick', baseHealth: 210, speed: 0.05, reward: 15, color: '#8B0000' },
@@ -790,7 +842,7 @@
                     ],
                     enemyTypes: [
                         { name: 'Ant', baseHealth: 100, speed: 0.056, reward: 5, color: '#8B4513' },
-                        { name: 'Drain Fly', baseHealth: 150, speed: 0.06, reward: 5, color: '#696969' },
+                        { name: 'Earwig', baseHealth: 150, speed: 0.06, reward: 5, color: '#696969' },
                         { name: 'Mosquito', baseHealth: 240, speed: 0.066, reward: 5, color: '#696969' },
                         { name: 'Fly', baseHealth: 340, speed: 0.062, reward: 5, color: '#696969' },
                         { name: 'Tick', baseHealth: 420, speed: 0.06, reward: 5, color: '#8B0000' },
@@ -806,6 +858,64 @@
                         { name: 'Beetle', baseHealth: 2000, speed: 0.058, reward: 5, color: '#2F4F4F' },
                         { name: 'Mice', baseHealth: 2000, speed: 0.06, reward: 5, color: '#808080' },
                         { name: 'Rat', baseHealth: 2400, speed: 0.072, reward: 5, color: '#4B4B4B' }
+                    ]
+                },
+                {
+                    name: "Level 3",
+                    waves: 20,
+                    enemyMultiplier: 3, // 3x enemies
+                    path: [
+                        {x: 0, y: 3}, {x: 4, y: 3}, {x: 4, y: 7},
+                        {x: 7, y: 7}, {x: 7, y: 1}, {x: 10, y: 1},
+                        {x: 10, y: 9}, {x: 11, y: 9}
+                    ],
+                    enemyTypes: [
+                        { name: 'Ant', baseHealth: 120, speed: 0.067, reward: 5, color: '#8B4513' },
+                        { name: 'Earwig', baseHealth: 180, speed: 0.072, reward: 5, color: '#696969' },
+                        { name: 'Mosquito', baseHealth: 288, speed: 0.079, reward: 5, color: '#696969' },
+                        { name: 'Fly', baseHealth: 408, speed: 0.074, reward: 5, color: '#696969' },
+                        { name: 'Tick', baseHealth: 504, speed: 0.072, reward: 5, color: '#8B0000' },
+                        { name: 'Slug', baseHealth: 720, speed: 0.060, reward: 5, color: '#228B22' },
+                        { name: 'Cockroach', baseHealth: 828, speed: 0.062, reward: 5, color: '#8B4513' },
+                        { name: 'Worm', baseHealth: 936, speed: 0.058, reward: 5, color: '#228B22' },
+                        { name: 'Snail', baseHealth: 960, speed: 0.052, reward: 5, color: '#228B22' },
+                        { name: 'Spider', baseHealth: 1152, speed: 0.064, reward: 5, color: '#2F4F4F' },
+                        { name: 'Millipede', baseHealth: 1248, speed: 0.050, reward: 5, color: '#8B4513' },
+                        { name: 'Long Legs', baseHealth: 1488, speed: 0.060, reward: 5, color: '#9ACD32' },
+                        { name: 'Ladybug', baseHealth: 1920, speed: 0.058, reward: 5, color: '#FF0000' },
+                        { name: 'Termite', baseHealth: 2160, speed: 0.064, reward: 5, color: '#8B0000' },
+                        { name: 'Beetle', baseHealth: 2400, speed: 0.070, reward: 5, color: '#2F4F4F' },
+                        { name: 'Mice', baseHealth: 2400, speed: 0.072, reward: 5, color: '#808080' },
+                        { name: 'Rat', baseHealth: 2880, speed: 0.086, reward: 5, color: '#4B4B4B' }
+                    ]
+                },
+                {
+                    name: "Level 4",
+                    waves: 30,
+                    enemyMultiplier: 4, // 4x enemies - house invasion!
+                    path: [
+                        {x: 0, y: 4}, {x: 2, y: 4}, {x: 2, y: 8}, {x: 4, y: 8},
+                        {x: 4, y: 4}, {x: 6, y: 4}, {x: 6, y: 9}, {x: 8, y: 9},
+                        {x: 8, y: 3}, {x: 10, y: 3}, {x: 10, y: 10}, {x: 11, y: 10}
+                    ],
+                    enemyTypes: [
+                        { name: 'Ant', baseHealth: 144, speed: 0.080, reward: 7, color: '#8B4513' },
+                        { name: 'Earwig', baseHealth: 216, speed: 0.086, reward: 7, color: '#696969' },
+                        { name: 'Mosquito', baseHealth: 346, speed: 0.095, reward: 7, color: '#696969' },
+                        { name: 'Fly', baseHealth: 490, speed: 0.089, reward: 7, color: '#696969' },
+                        { name: 'Tick', baseHealth: 605, speed: 0.086, reward: 7, color: '#8B0000' },
+                        { name: 'Slug', baseHealth: 864, speed: 0.072, reward: 7, color: '#228B22' },
+                        { name: 'Cockroach', baseHealth: 994, speed: 0.074, reward: 7, color: '#8B4513' },
+                        { name: 'Worm', baseHealth: 1123, speed: 0.070, reward: 7, color: '#228B22' },
+                        { name: 'Snail', baseHealth: 1152, speed: 0.062, reward: 7, color: '#228B22' },
+                        { name: 'Spider', baseHealth: 1382, speed: 0.077, reward: 7, color: '#2F4F4F' },
+                        { name: 'Millipede', baseHealth: 1498, speed: 0.060, reward: 7, color: '#8B4513' },
+                        { name: 'Long Legs', baseHealth: 1786, speed: 0.072, reward: 7, color: '#9ACD32' },
+                        { name: 'Ladybug', baseHealth: 2304, speed: 0.070, reward: 7, color: '#FF0000' },
+                        { name: 'Termite', baseHealth: 2592, speed: 0.077, reward: 7, color: '#8B0000' },
+                        { name: 'Beetle', baseHealth: 2880, speed: 0.084, reward: 7, color: '#2F4F4F' },
+                        { name: 'Mice', baseHealth: 2880, speed: 0.086, reward: 7, color: '#808080' },
+                        { name: 'Rat', baseHealth: 3456, speed: 0.103, reward: 7, color: '#4B4B4B' }
                     ]
                 }
             ],
@@ -943,6 +1053,8 @@
         const levelSelectScreen = document.getElementById('level-select');
         const selectLevel1Btn = document.getElementById('select-level-1');
         const selectLevel2Btn = document.getElementById('select-level-2');
+        const selectLevel3Btn = document.getElementById('select-level-3');
+        const selectLevel4Btn = document.getElementById('select-level-4');
 
         function init() {
             loadAssets();
@@ -1156,8 +1268,10 @@
                 }
             });
             
+            const levelNum = levelIndex + 1; // Convert 0-3 to 1-4
+            
             document.querySelectorAll('.grid-cell').forEach(cell => {
-                cell.className = 'grid-cell grass';
+                cell.className = `grid-cell level${levelNum}grass`;
             });
             
             const level = config.levels[levelIndex];
@@ -1173,7 +1287,7 @@
                     for (let x = minX; x <= maxX; x++) {
                         const cell = getCellAt(x, start.y);
                         if (cell) {
-                            cell.className = 'grid-cell path';
+                            cell.className = `grid-cell level${levelNum}path`;
                         }
                     }
                 }
@@ -1183,7 +1297,7 @@
                     for (let y = minY; y <= maxY; y++) {
                         const cell = getCellAt(start.x, y);
                         if (cell) {
-                            cell.className = 'grid-cell path';
+                            cell.className = `grid-cell level${levelNum}path`;
                         }
                     }
                 }
@@ -1210,7 +1324,7 @@
                 c.classList.remove('valid', 'invalid');
             });
             
-            const isPath = cell.classList.contains('path');
+            const isPath = cell.className.includes('path');
             const hasTower = gameState.towers.some(t => t.x === x && t.y === y);
             
             if (!isPath && !hasTower) {
@@ -1251,7 +1365,7 @@
             const cell = getCellAt(x, y);
             if (!cell) return;
             
-            const isPath = cell.classList.contains('path');
+            const isPath = cell.className.includes('path');
             const hasTower = gameState.towers.some(t => t.x === x && t.y === y);
             
             if (isPath || hasTower) {
@@ -1329,7 +1443,12 @@
             });
             clearRangeDisplay();
             
-            if (gameState.wave === 16) {
+            // Boss wave check - wave 30 for level 4, wave 20 for level 3, wave 16 for levels 1&2
+            const isBossWave = (gameState.currentLevel === 3 && gameState.wave === 30) ||
+                               (gameState.currentLevel === 2 && gameState.wave === 20) || 
+                               (gameState.currentLevel < 2 && gameState.wave === 16);
+            
+            if (isBossWave) {
                 const mouseType = level.enemyTypes[15];
                 const ratType = level.enemyTypes[16];
                 const halfEnemies = Math.floor(gameState.totalEnemies / 2);
@@ -1372,8 +1491,8 @@
             const health = enemyType.baseHealth + (gameState.wave - 1) * 15;
             const speed = enemyType.speed;
             
-            // Level 2 gets flat $5 reward, Level 1 gets wave bonus
-            const reward = (gameState.currentLevel === 1) ? enemyType.reward : enemyType.reward + gameState.wave * 2;
+            // Level 2, 3, and 4 get flat rewards ($5 or $7), Level 1 gets wave bonus
+            const reward = (gameState.currentLevel >= 1) ? enemyType.reward : enemyType.reward + gameState.wave * 2;
             
             const enemy = {
                 id: Date.now() + Math.random(),
@@ -1406,7 +1525,7 @@
             if (enemy.name === 'Rat') assetName = 'rat';
             if (enemy.name === 'Long Legs') assetName = 'daddyspider';
             if (enemy.name === 'Ladybug') assetName = 'bugbug';
-            if (enemy.name === 'Drain Fly') assetName = 'drainfly';
+            if (enemy.name === 'Earwig') assetName = 'earwig';
             
             enemyElement.style.backgroundImage = `url(${ASSETS.enemies[assetName]})`;
             enemyElement.style.backgroundSize = 'contain';
@@ -1729,7 +1848,8 @@
                 
                 gameState.waveInProgress = false;
                 
-                if (gameState.wave === 16) {
+                const level = config.levels[gameState.currentLevel];
+                if (gameState.wave === level.waves) {
                     showVictoryScreen();
                 } else {
                     gameState.money += 60;
@@ -1783,7 +1903,11 @@
             enemiesRemainingDisplay.textContent = gameState.totalEnemies - gameState.enemiesKilled;
             
             if (!gameState.waveInProgress && gameState.wave < level.waves) {
-                if (gameState.wave === 15) {
+                const isBossWaveNext = (gameState.currentLevel === 3 && gameState.wave === 29) ||
+                                       (gameState.currentLevel === 2 && gameState.wave === 19) || 
+                                       (gameState.currentLevel < 2 && gameState.wave === 15);
+                
+                if (isBossWaveNext) {
                     nextWaveType.textContent = `BOSS: Mice & Rats`;
                 } else {
                     const nextWaveTypeIndex = gameState.wave % 15;
@@ -1862,6 +1986,16 @@
             selectLevel2Btn.addEventListener('click', () => {
                 levelSelectScreen.classList.add('hidden');
                 loadLevel(1);
+            });
+
+            selectLevel3Btn.addEventListener('click', () => {
+                levelSelectScreen.classList.add('hidden');
+                loadLevel(2);
+            });
+
+            selectLevel4Btn.addEventListener('click', () => {
+                levelSelectScreen.classList.add('hidden');
+                loadLevel(3);
             });
 
             towerOptions.forEach(option => {
