@@ -164,7 +164,7 @@
             border-radius: 5px;
             cursor: pointer;
             width: 100%;
-            margin-top: 10px;
+            margin-top: 5px;
             font-size: 1.1rem;
         }
         
@@ -384,8 +384,9 @@
         }
         
         .wave-info {
-            margin-top: 20px;
+            margin-top: 10px;
             text-align: center;
+            
         }
         
         .instructions {
@@ -405,18 +406,19 @@
         }
         
         .upgrade-section {
-            margin-top: 20px;
-            padding-top: 15px;
+            margin-top: 10px;
+            padding-top: 10px;
             border-top: 1px solid rgba(255, 255, 255, 0.2);
         }
         
         .upgrade-btn {
             background: linear-gradient(to bottom, #03befc, #0303fc) !important; 
             margin: 5px 0;
-            padding: 8px 12px;
-            font-size: 0.9rem;
+            padding: 12px 24px;
+            font-size: 1rem;
+            font-weight: bold;
         }
-        
+      
         .upgrade-btn:hover {
             background: linear-gradient(to bottom, #050e85, #0303fc) !important;
         }
@@ -694,16 +696,16 @@
                 </div>
                 
                 <div class="placement-help" id="placement-help">
-                    Select a tool above, then click on any <span style="color: lightgreen">green area</span> to place it. Avoid <span style="color: #8B4513">brown paths</span>.
+                    Select a tool above, then click on any <span style="color: #80ff00; font-weight: bold;">GREEN AREA</span> to place it. Avoid <span style="color: #e17222; font-weight: bold;">BROWN PATHS</span>.
                 </div>
 
                 <div class="upgrade-section">
                     <h3>Special Abilities</h3>
-                    <button class="upgrade-btn" id="pest-control-btn">Call 4Real Pest Control</button>
+                    <button class="upgrade-btn" id="pest-control-btn">Call Pest Control! (FREE)</button>
                 </div>
                 
                 <div class="wave-info">
-                    <button id="start-wave">Start Wave</button>
+                    <button id="start-wave">START WAVE</button>
                     <div class="wave-preview" id="wave-preview">
                         Next wave: <span id="next-wave-type">Ants</span>
                     </div>
@@ -711,7 +713,7 @@
                 </div>
                 
                 <div class="instructions">
-                    <h3>Survive as many waves as you can.</h3>
+                    <P>Survive as many waves as you can.</P>
                    
                 </div>
             </div>
@@ -791,7 +793,7 @@
             },
             pestControl: "https://github.com/TitanBusinessPros/BugDefense-/raw/main/PestControlVan.png",
             music: {
-                main: "https://github.com/TitanBusinessPros/Insect-Eradicator-Royale/raw/main/Bug-song.mp3"
+                main: "https://github.com/TitanBusinessPros/Gameville/raw/main/Gameville%20Dreams.mp3"
             },
             cutscene: "https://github.com/TitanBusinessPros/Insect-Eradicator-Royale/raw/main/4Real-CS-AD-1.mp4"
         };
@@ -800,13 +802,16 @@
         const config = {
             gridSize: 12,
             cellSize: 70,
-            initialMoney: 200,
+            initialMoney: 180,
             initialLives: 10,
             levels: [
                 {
                     name: "Level 1",
                     waves: 16,
                     enemyMultiplier: 1,
+                    towerMultiplier: 1.0,
+                    initialMoney: 200,
+                    initialLives: 10,
                     path: [
                         {x: 0, y: 5}, {x: 3, y: 5}, {x: 3, y: 2}, 
                         {x: 7, y: 2}, {x: 7, y: 7}, {x: 11, y: 7}
@@ -815,18 +820,18 @@
                         { name: 'Ant', baseHealth: 50, speed: 0.047, reward: 10, color: '#8B4513' },
                         { name: 'Earwig', baseHealth: 75, speed: 0.05, reward: 10, color: '#696969' },
                         { name: 'Mosquito', baseHealth: 120, speed: 0.055, reward: 10, color: '#696969' },
-                        { name: 'Fly', baseHealth: 170, speed: 0.052, reward: 15, color: '#696969' },
-                        { name: 'Tick', baseHealth: 210, speed: 0.05, reward: 15, color: '#8B0000' },
-                        { name: 'Slug', baseHealth: 300, speed: 0.042, reward: 15, color: '#228B22' },
-                        { name: 'Cockroach', baseHealth: 345, speed: 0.043, reward: 20, color: '#8B4513' },
-                        { name: 'Worm', baseHealth: 390, speed: 0.04, reward: 20, color: '#228B22' },
-                        { name: 'Snail', baseHealth: 400, speed: 0.036, reward: 20, color: '#228B22' },
-                        { name: 'Spider', baseHealth: 480, speed: 0.044, reward: 25, color: '#2F4F4F' },
-                        { name: 'Millipede', baseHealth: 520, speed: 0.035, reward: 25, color: '#8B4513' },
-                        { name: 'Long Legs', baseHealth: 620, speed: 0.042, reward: 25, color: '#9ACD32' },
-                        { name: 'Ladybug', baseHealth: 800, speed: 0.04, reward: 30, color: '#FF0000' },
-                        { name: 'Termite', baseHealth: 900, speed: 0.044, reward: 30, color: '#8B0000' },
-                        { name: 'Beetle', baseHealth: 1000, speed: 0.048, reward: 30, color: '#2F4F4F' },
+                        { name: 'Fly', baseHealth: 170, speed: 0.052, reward: 8, color: '#696969' },
+                        { name: 'Tick', baseHealth: 210, speed: 0.05, reward: 7, color: '#8B0000' },
+                        { name: 'Slug', baseHealth: 300, speed: 0.042, reward: 5, color: '#228B22' },
+                        { name: 'Cockroach', baseHealth: 345, speed: 0.043, reward: 8, color: '#8B4513' },
+                        { name: 'Worm', baseHealth: 390, speed: 0.04, reward: 5, color: '#228B22' },
+                        { name: 'Snail', baseHealth: 400, speed: 0.036, reward: 6, color: '#228B22' },
+                        { name: 'Spider', baseHealth: 480, speed: 0.044, reward: 7, color: '#2F4F4F' },
+                        { name: 'Millipede', baseHealth: 520, speed: 0.035, reward: 10, color: '#8B4513' },
+                        { name: 'Long Legs', baseHealth: 620, speed: 0.042, reward: 6, color: '#9ACD32' },
+                        { name: 'Ladybug', baseHealth: 800, speed: 0.04, reward: 7, color: '#FF0000' },
+                        { name: 'Termite', baseHealth: 900, speed: 0.044, reward: 8, color: '#8B0000' },
+                        { name: 'Beetle', baseHealth: 1000, speed: 0.048, reward: 10, color: '#2F4F4F' },
                         { name: 'Mice', baseHealth: 1000, speed: 0.05, reward: 50, color: '#808080' },
                         { name: 'Rat', baseHealth: 1200, speed: 0.06, reward: 100, color: '#4B4B4B' }
                     ]
@@ -835,28 +840,31 @@
                     name: "Level 2",
                     waves: 16,
                     enemyMultiplier: 2, // Twice as many enemies
+                    towerMultiplier: 1.5,
+                    initialMoney: 300,
+                    initialLives: 10,
                     path: [
                         {x: 0, y: 6}, {x: 2, y: 6}, {x: 2, y: 3},
                         {x: 5, y: 3}, {x: 5, y: 8}, {x: 8, y: 8},
                         {x: 8, y: 2}, {x: 11, y: 2}
                     ],
                     enemyTypes: [
-                        { name: 'Ant', baseHealth: 100, speed: 0.056, reward: 5, color: '#8B4513' },
-                        { name: 'Earwig', baseHealth: 150, speed: 0.06, reward: 5, color: '#696969' },
-                        { name: 'Mosquito', baseHealth: 240, speed: 0.066, reward: 5, color: '#696969' },
-                        { name: 'Fly', baseHealth: 340, speed: 0.062, reward: 5, color: '#696969' },
-                        { name: 'Tick', baseHealth: 420, speed: 0.06, reward: 5, color: '#8B0000' },
-                        { name: 'Slug', baseHealth: 600, speed: 0.050, reward: 5, color: '#228B22' },
-                        { name: 'Cockroach', baseHealth: 690, speed: 0.052, reward: 5, color: '#8B4513' },
-                        { name: 'Worm', baseHealth: 780, speed: 0.048, reward: 5, color: '#228B22' },
-                        { name: 'Snail', baseHealth: 800, speed: 0.043, reward: 5, color: '#228B22' },
-                        { name: 'Spider', baseHealth: 960, speed: 0.053, reward: 5, color: '#2F4F4F' },
-                        { name: 'Millipede', baseHealth: 1040, speed: 0.042, reward: 5, color: '#8B4513' },
-                        { name: 'Long Legs', baseHealth: 1240, speed: 0.050, reward: 5, color: '#9ACD32' },
-                        { name: 'Ladybug', baseHealth: 1600, speed: 0.048, reward: 5, color: '#FF0000' },
-                        { name: 'Termite', baseHealth: 1800, speed: 0.053, reward: 5, color: '#8B0000' },
-                        { name: 'Beetle', baseHealth: 2000, speed: 0.058, reward: 5, color: '#2F4F4F' },
-                        { name: 'Mice', baseHealth: 2000, speed: 0.06, reward: 5, color: '#808080' },
+                        { name: 'Ant', baseHealth: 100, speed: 0.056, reward: 13, color: '#8B4513' },
+                        { name: 'Earwig', baseHealth: 150, speed: 0.06, reward: 12, color: '#696969' },
+                        { name: 'Mosquito', baseHealth: 240, speed: 0.066, reward: 10, color: '#696969' },
+                        { name: 'Fly', baseHealth: 340, speed: 0.062, reward: 9, color: '#696969' },
+                        { name: 'Tick', baseHealth: 420, speed: 0.06, reward: 10, color: '#8B0000' },
+                        { name: 'Slug', baseHealth: 600, speed: 0.050, reward: 8, color: '#228B22' },
+                        { name: 'Cockroach', baseHealth: 690, speed: 0.052, reward: 10, color: '#8B4513' },
+                        { name: 'Worm', baseHealth: 780, speed: 0.05, reward: 10, color: '#228B22' },
+                        { name: 'Snail', baseHealth: 800, speed: 0.048, reward: 9, color: '#228B22' },
+                        { name: 'Spider', baseHealth: 990, speed: 0.055, reward: 10, color: '#2F4F4F' },
+                        { name: 'Millipede', baseHealth: 1040, speed: 0.05, reward: 5, color: '#8B4513' },
+                        { name: 'Long Legs', baseHealth: 1240, speed: 0.058, reward: 10, color: '#9ACD32' },
+                        { name: 'Ladybug', baseHealth: 1400, speed: 0.048, reward: 7, color: '#FF0000' },
+                        { name: 'Termite', baseHealth: 1600, speed: 0.053, reward: 5, color: '#8B0000' },
+                        { name: 'Beetle', baseHealth: 1800, speed: 0.058, reward: 10, color: '#2F4F4F' },
+                        { name: 'Mice', baseHealth: 2200, speed: 0.06, reward: 5, color: '#808080' },
                         { name: 'Rat', baseHealth: 2400, speed: 0.072, reward: 5, color: '#4B4B4B' }
                     ]
                 },
@@ -864,26 +872,29 @@
                     name: "Level 3",
                     waves: 20,
                     enemyMultiplier: 3, // 3x enemies
+                    towerMultiplier: 2.0,
+                    initialMoney: 500,
+                    initialLives: 10,
                     path: [
                         {x: 0, y: 3}, {x: 4, y: 3}, {x: 4, y: 7},
                         {x: 7, y: 7}, {x: 7, y: 1}, {x: 10, y: 1},
                         {x: 10, y: 9}, {x: 11, y: 9}
                     ],
                     enemyTypes: [
-                        { name: 'Ant', baseHealth: 120, speed: 0.067, reward: 5, color: '#8B4513' },
-                        { name: 'Earwig', baseHealth: 180, speed: 0.072, reward: 5, color: '#696969' },
-                        { name: 'Mosquito', baseHealth: 288, speed: 0.079, reward: 5, color: '#696969' },
-                        { name: 'Fly', baseHealth: 408, speed: 0.074, reward: 5, color: '#696969' },
+                        { name: 'Ant', baseHealth: 120, speed: 0.067, reward: 10, color: '#8B4513' },
+                        { name: 'Earwig', baseHealth: 180, speed: 0.072, reward: 8, color: '#696969' },
+                        { name: 'Mosquito', baseHealth: 288, speed: 0.076, reward: 7, color: '#696969' },
+                        { name: 'Fly', baseHealth: 408, speed: 0.074, reward: 6, color: '#696969' },
                         { name: 'Tick', baseHealth: 504, speed: 0.072, reward: 5, color: '#8B0000' },
-                        { name: 'Slug', baseHealth: 720, speed: 0.060, reward: 5, color: '#228B22' },
+                        { name: 'Slug', baseHealth: 720, speed: 0.060, reward: 10, color: '#228B22' },
                         { name: 'Cockroach', baseHealth: 828, speed: 0.062, reward: 5, color: '#8B4513' },
-                        { name: 'Worm', baseHealth: 936, speed: 0.058, reward: 5, color: '#228B22' },
-                        { name: 'Snail', baseHealth: 960, speed: 0.052, reward: 5, color: '#228B22' },
+                        { name: 'Worm', baseHealth: 900, speed: 0.058, reward: 5, color: '#228B22' },
+                        { name: 'Snail', baseHealth: 960, speed: 0.052, reward: 4, color: '#228B22' },
                         { name: 'Spider', baseHealth: 1152, speed: 0.064, reward: 5, color: '#2F4F4F' },
                         { name: 'Millipede', baseHealth: 1248, speed: 0.050, reward: 5, color: '#8B4513' },
-                        { name: 'Long Legs', baseHealth: 1488, speed: 0.060, reward: 5, color: '#9ACD32' },
-                        { name: 'Ladybug', baseHealth: 1920, speed: 0.058, reward: 5, color: '#FF0000' },
-                        { name: 'Termite', baseHealth: 2160, speed: 0.064, reward: 5, color: '#8B0000' },
+                        { name: 'Long Legs', baseHealth: 1488, speed: 0.060, reward: 6, color: '#9ACD32' },
+                        { name: 'Ladybug', baseHealth: 1920, speed: 0.058, reward: 4, color: '#FF0000' },
+                        { name: 'Termite', baseHealth: 2160, speed: 0.064, reward: 6, color: '#8B0000' },
                         { name: 'Beetle', baseHealth: 2400, speed: 0.070, reward: 5, color: '#2F4F4F' },
                         { name: 'Mice', baseHealth: 2400, speed: 0.072, reward: 5, color: '#808080' },
                         { name: 'Rat', baseHealth: 2880, speed: 0.086, reward: 5, color: '#4B4B4B' }
@@ -893,6 +904,9 @@
                     name: "Level 4",
                     waves: 30,
                     enemyMultiplier: 4, // 4x enemies - house invasion!
+                    towerMultiplier: 2.5,
+                    initialMoney: 800,
+                    initialLives: 10,
                     path: [
                         {x: 0, y: 4}, {x: 2, y: 4}, {x: 2, y: 8}, {x: 4, y: 8},
                         {x: 4, y: 4}, {x: 6, y: 4}, {x: 6, y: 9}, {x: 8, y: 9},
@@ -900,19 +914,19 @@
                     ],
                     enemyTypes: [
                         { name: 'Ant', baseHealth: 144, speed: 0.080, reward: 7, color: '#8B4513' },
-                        { name: 'Earwig', baseHealth: 216, speed: 0.086, reward: 7, color: '#696969' },
+                        { name: 'Earwig', baseHealth: 216, speed: 0.086, reward: 10, color: '#696969' },
                         { name: 'Mosquito', baseHealth: 346, speed: 0.095, reward: 7, color: '#696969' },
-                        { name: 'Fly', baseHealth: 490, speed: 0.089, reward: 7, color: '#696969' },
-                        { name: 'Tick', baseHealth: 605, speed: 0.086, reward: 7, color: '#8B0000' },
+                        { name: 'Fly', baseHealth: 490, speed: 0.089, reward: 9, color: '#696969' },
+                        { name: 'Tick', baseHealth: 605, speed: 0.086, reward: 8, color: '#8B0000' },
                         { name: 'Slug', baseHealth: 864, speed: 0.072, reward: 7, color: '#228B22' },
-                        { name: 'Cockroach', baseHealth: 994, speed: 0.074, reward: 7, color: '#8B4513' },
+                        { name: 'Cockroach', baseHealth: 994, speed: 0.074, reward: 5, color: '#8B4513' },
                         { name: 'Worm', baseHealth: 1123, speed: 0.070, reward: 7, color: '#228B22' },
-                        { name: 'Snail', baseHealth: 1152, speed: 0.062, reward: 7, color: '#228B22' },
-                        { name: 'Spider', baseHealth: 1382, speed: 0.077, reward: 7, color: '#2F4F4F' },
-                        { name: 'Millipede', baseHealth: 1498, speed: 0.060, reward: 7, color: '#8B4513' },
-                        { name: 'Long Legs', baseHealth: 1786, speed: 0.072, reward: 7, color: '#9ACD32' },
+                        { name: 'Snail', baseHealth: 1152, speed: 0.062, reward: 8, color: '#228B22' },
+                        { name: 'Spider', baseHealth: 1382, speed: 0.077, reward: 4, color: '#2F4F4F' },
+                        { name: 'Millipede', baseHealth: 1498, speed: 0.060, reward: 5, color: '#8B4513' },
+                        { name: 'Long Legs', baseHealth: 1786, speed: 0.072, reward: 8, color: '#9ACD32' },
                         { name: 'Ladybug', baseHealth: 2304, speed: 0.070, reward: 7, color: '#FF0000' },
-                        { name: 'Termite', baseHealth: 2592, speed: 0.077, reward: 7, color: '#8B0000' },
+                        { name: 'Termite', baseHealth: 2592, speed: 0.077, reward: 5, color: '#8B0000' },
                         { name: 'Beetle', baseHealth: 2880, speed: 0.084, reward: 7, color: '#2F4F4F' },
                         { name: 'Mice', baseHealth: 2880, speed: 0.086, reward: 7, color: '#808080' },
                         { name: 'Rat', baseHealth: 3456, speed: 0.103, reward: 7, color: '#4B4B4B' }
@@ -1055,6 +1069,55 @@
         const selectLevel2Btn = document.getElementById('select-level-2');
         const selectLevel3Btn = document.getElementById('select-level-3');
         const selectLevel4Btn = document.getElementById('select-level-4');
+
+        function updateTowerShopDisplay() {
+            const level = config.levels[gameState.currentLevel];
+            const mult = level.towerMultiplier;
+            
+            const weakOption = document.querySelector('[data-type="weak"]');
+            const strongOption = document.querySelector('[data-type="strong"]');
+            const bombOption = document.querySelector('[data-type="bomb"]');
+            const glueOption = document.querySelector('[data-type="glue"]');
+            
+            const weakCost = Math.round(config.towerTypes.weak.cost * mult);
+            const weakDamage = Math.round(config.towerTypes.weak.damage * mult);
+            weakOption.innerHTML = `
+                <div class="tower-icon" id="weak-tower-icon"></div>
+                <div>Weak Spray</div>
+                <div>Cost: $${weakCost}</div>
+                <div>Damage: ${weakDamage}</div>
+            `;
+            document.getElementById('weak-tower-icon').style.backgroundImage = `url(${ASSETS.towers.weak})`;
+            
+            const strongCost = Math.round(config.towerTypes.strong.cost * mult);
+            const strongDamage = Math.round(config.towerTypes.strong.damage * mult);
+            strongOption.innerHTML = `
+                <div class="tower-icon" id="strong-tower-icon"></div>
+                <div>Strong Spray</div>
+                <div>Cost: $${strongCost}</div>
+                <div>Damage: ${strongDamage}</div>
+            `;
+            document.getElementById('strong-tower-icon').style.backgroundImage = `url(${ASSETS.towers.strong})`;
+            
+            const bombCost = Math.round(config.towerTypes.bomb.cost * mult);
+            const bombDamage = Math.round(config.towerTypes.bomb.damage * mult);
+            bombOption.innerHTML = `
+                <div class="tower-icon" id="bomb-tower-icon"></div>
+                <div>Bug Bomb</div>
+                <div>Cost: $${bombCost}</div>
+                <div>Damage: ${bombDamage}</div>
+            `;
+            document.getElementById('bomb-tower-icon').style.backgroundImage = `url(${ASSETS.towers.bomb})`;
+            
+            const glueCost = Math.round(config.towerTypes.glue.cost * mult);
+            glueOption.innerHTML = `
+                <div class="tower-icon" id="glue-tower-icon"></div>
+                <div>Glue Trap</div>
+                <div>Cost: $${glueCost}</div>
+                <div>Slows 80%</div>
+            `;
+            document.getElementById('glue-tower-icon').style.backgroundImage = `url(${ASSETS.towers.glue})`;
+        }
 
         function init() {
             loadAssets();
@@ -1262,6 +1325,11 @@
             gameState.projectiles = [];
             gameState.selectedTower = null;
             
+            // Set level-specific money and lives
+            const level = config.levels[levelIndex];
+            gameState.money = level.initialMoney;
+            gameState.lives = level.initialLives;
+            
             document.querySelectorAll('.tower, .enemy, .projectile, .tower-range, .explosion').forEach(el => {
                 if (el.classList.contains('tower') && !el.classList.contains('range-display')) {
                     el.remove();
@@ -1274,7 +1342,6 @@
                 cell.className = `grid-cell level${levelNum}grass`;
             });
             
-            const level = config.levels[levelIndex];
             const path = level.path;
             
             for (let i = 0; i < path.length - 1; i++) {
@@ -1304,6 +1371,7 @@
             }
             
             clearRangeDisplay();
+            updateTowerShopDisplay();
             updateUI();
         }
 
@@ -1373,17 +1441,21 @@
             }
             
             const towerType = config.towerTypes[gameState.selectedTower];
-            if (gameState.money < towerType.cost) {
+            const level = config.levels[gameState.currentLevel];
+            const towerMult = level.towerMultiplier;
+            const actualCost = Math.round(towerType.cost * towerMult);
+
+            if (gameState.money < actualCost) {
                 return;
             }
-            
-            gameState.money -= towerType.cost;
-            
+
+            gameState.money -= actualCost;
+
             const tower = {
                 type: gameState.selectedTower,
                 x: x,
                 y: y,
-                damage: towerType.damage * gameState.upgrades.damage,
+                damage: towerType.damage * gameState.upgrades.damage * towerMult,
                 range: towerType.range * gameState.upgrades.range,
                 fireRate: towerType.fireRate * gameState.upgrades.fireRate,
                 lastFired: 0,
@@ -1852,7 +1924,7 @@
                 if (gameState.wave === level.waves) {
                     showVictoryScreen();
                 } else {
-                    gameState.money += 100;
+                    gameState.money += 60;
                     gameState.score += 150;
                 }
                 
@@ -1919,9 +1991,10 @@
                 wavePreview.style.display = 'none';
             }
             
+            const towerMult = level.towerMultiplier;
             towerOptions.forEach(option => {
                 const type = option.dataset.type;
-                const cost = config.towerTypes[type].cost;
+                const cost = Math.round(config.towerTypes[type].cost * towerMult);
                 const isSelected = gameState.selectedTower === type;
                 const canAfford = gameState.money >= cost;
                 
@@ -1945,13 +2018,14 @@
             
             if (gameState.selectedTower) {
                 const towerType = config.towerTypes[gameState.selectedTower];
-                placementHelp.innerHTML = `<strong>${gameState.selectedTower.charAt(0).toUpperCase() + gameState.selectedTower.slice(1)} Tool</strong> selected! Click on any <span style="color: lightgreen">green area</span> to place ($${towerType.cost}).`;
+                const actualCost = Math.round(towerType.cost * towerMult);
+                placementHelp.innerHTML = `<strong>${gameState.selectedTower.charAt(0).toUpperCase() + gameState.selectedTower.slice(1)} Tool</strong> selected! Click on any <span style="color: #80ff00; font-weight: bold;">GREEN AREA</span> to place ($${actualCost}).`;
             } else {
-                placementHelp.innerHTML = `Select a tool above, then click on any <span style="color: lightgreen">green area</span> to place it. Avoid <span style="color: #8B4513">brown paths</span>.`;
+                placementHelp.innerHTML = `Select a tool above, then click on any <span style="color: #80ff00; font-weight: bold;">GREEN AREA</span> to place it. Avoid <span style="color: #e17222; font-weight: bold;">BROWN PATHS</span>.`;
             }
             
             startWaveBtn.disabled = gameState.waveInProgress || gameState.gameOver;
-            startWaveBtn.textContent = gameState.waveInProgress ? 'Wave In Progress...' : 'Start Wave';
+            startWaveBtn.textContent = gameState.waveInProgress ? 'Wave In Progress...' : 'START WAVE';
         }
 
         function gameOver() {
@@ -2001,7 +2075,8 @@
             towerOptions.forEach(option => {
                 option.addEventListener('click', () => {
                     const type = option.dataset.type;
-                    const cost = config.towerTypes[type].cost;
+                    const level = config.levels[gameState.currentLevel];
+                    const cost = Math.round(config.towerTypes[type].cost * level.towerMultiplier);
                     
                     if (gameState.money >= cost) {
                         gameState.selectedTower = type;
