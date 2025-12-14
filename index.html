@@ -699,7 +699,7 @@
 
                 <div class="upgrade-section">
                     <h3>Special Abilities</h3>
-                    <button class="upgrade-btn" id="pest-control-btn">Call Pest Control! (FREE)</button>
+                    <button class="upgrade-btn" id="pest-control-btn">Call 4Real Pest Control</button>
                 </div>
                 
                 <div class="wave-info">
@@ -1937,10 +1937,10 @@
             if (cooldownRemaining > 0) {
                 const secondsLeft = Math.ceil(cooldownRemaining / 1000);
                 pestControlBtn.disabled = true;
-                pestControlBtn.textContent = `Call Pest Control! (${secondsLeft}s)`;
+                pestControlBtn.textContent = `Call 4Real Pest Control! (${secondsLeft}s)`;
             } else {
                 pestControlBtn.disabled = false;
-                pestControlBtn.textContent = 'Call Pest Control! (FREE)';
+                pestControlBtn.textContent = 'Call 4Real Pest Control!';
             }
             
             if (gameState.selectedTower) {
